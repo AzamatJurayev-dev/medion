@@ -4,6 +4,8 @@ import { routing } from "@/i18n/routing";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProgressBarProvider from "@/components/providers/ProgressBarProvider";
+
+
 export default async function LocaleLayout({
   children,
   params,
@@ -29,11 +31,11 @@ export default async function LocaleLayout({
       <body>
         <>
           <NextIntlClientProvider locale={locale} messages={messages}>
-            <ProgressBarProvider>
-              <Header />
-              <div className="h-auto">{children}</div>
-              <Footer />
-            </ProgressBarProvider>
+              <ProgressBarProvider>
+                <Header />
+                <div className="h-auto">{children}</div>
+                <Footer />
+              </ProgressBarProvider>
           </NextIntlClientProvider>
         </>
       </body>

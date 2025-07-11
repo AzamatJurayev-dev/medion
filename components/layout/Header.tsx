@@ -1,10 +1,13 @@
-import { Divider, Dropdown, Flex} from "antd";
+"use client";
+import { Divider, Dropdown, Flex } from "antd";
 import Container from "../elements/Container";
 import { PhoneItems } from "../../constants/MenuItems";
 import { CustomButton } from "../ui/Button";
 import logo from "@/public/images/image.png";
 import Image from "next/image";
 import {
+  ArrowDownIcon,
+  ArrowUpIcon,
   BookIcon,
   FileTextIcon,
   ForiegnDoctorIcon,
@@ -22,51 +25,71 @@ import CustomInput from "../ui/Input";
 import NavLink from "../ui/NavLink";
 import DropdownItem from "../ui/DropdownItem";
 import CustomDropdown from "../ui/Dropdown";
+import { useState, useTransition } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { RusIcon } from "@/icons/rus-icon";
+import { UzbIcon } from "@/icons/uzb-icon";
+import { EnglishIcon } from "@/icons/english-icon";
+import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+
+
+const Header = () => {
+  const [openLang, setOpenLang] = useState(false);
+  const router = useRouter();
+  const [ ,startTransition] = useTransition();
+  const changeLang = (newLang: string) => {
+    startTransition(() => {
+      router.replace(`/${newLang}`);
+    });
+    setOpenLang(false);
+  };
+  const activePath = useLocale();
+  const t = useTranslations();
 
 const MenuData = [
   {
     link: "/our-activities",
-    menu: "Наша деятельность",
+    menu: t("Наша деятельность"),
     icon: <StetoskopIcon />,
   },
   {
     link: "/group",
-    menu: "Команда",
+    menu: t("Команда"),
     icon: <GroupIcon />,
   },
   {
     link: "/training",
-    menu: "Обучение",
+    menu: t("Обучение"),
     icon: <BookIcon />,
   },
   {
     link: "/articles",
-    menu: "Статьи",
+    menu: t("Статьи"),
     icon: <FileTextIcon />,
   },
   {
     link: "/partners",
-    menu: "Партнёры",
+    menu: t("Партнёры"),
     icon: <HandshakeIcon />,
   },
   {
     link: "/equipment",
-    menu: "Оборудование",
+    menu: t("Оборудование"),
     icon: <ToolIcon />,
   },
   {
     link: "/awards",
-    menu: "Награды",
+    menu: t("Награды"),
     icon: <TrophyIcon />,
   },
   {
     link: "/careers",
-    menu: "Карьера",
+    menu: t("Карьера"),
     icon: <SolutionIcon />,
   },
 ];
 
-const Header = () => {
   return (
     <div className=" bg-white">
       <Container>
@@ -77,7 +100,7 @@ const Header = () => {
             </NavLink>
             <CustomInput
               prefix={<SearchIcon />}
-              placeholder="Поиск в клинике"
+              placeholder={t("Поиск в клинике")}
               className="w-[350px]"
             />
           </Flex>
@@ -88,9 +111,53 @@ const Header = () => {
               className="bg-[#F7F7F7] rounded-lg px-3 py-2 "
             >
               <p className="font-medium flex gap-3 items-center">
-                <PhoneIcon /> Связаться с нами
+                <PhoneIcon /> {t("Связаться с нами")}
               </p>
             </Dropdown>
+            <Flex className="relative">
+              <button
+                onClick={() => setOpenLang((prev) => !prev)}
+                className="flex gap-2 items-center"
+              >
+                {activePath.toUpperCase()}
+                {openLang ? <ArrowUpIcon /> : <ArrowDownIcon />}
+              </button>
+              <AnimatePresence>
+                {openLang && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 1 }}
+                    exit={{ opacity: 0, y: 40 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute mt-10 z-50 -translate-x-8 shadow-custom-1 w-fit rounded-b-lg"
+                  >
+                    <Flex vertical className="bg-white rounded-b-lg">
+                      <button
+                        onClick={() => changeLang("ru")}
+                        className="px-4 py-2 flex items-center gap-2 hover:bg-bg1"
+                      >
+                        <RusIcon />
+                        Ru
+                      </button>
+                      <button
+                        onClick={() => changeLang("uz")}
+                        className="px-4 py-2 flex items-center gap-2 hover:bg-bg1"
+                      >
+                        <UzbIcon />
+                        Uz
+                      </button>
+                      <button
+                        onClick={() => changeLang("en")}
+                        className="px-4 py-2 flex items-center gap-2 hover:bg-bg1 rounded-b-lg"
+                      >
+                        <EnglishIcon />
+                        En
+                      </button>
+                    </Flex>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Flex>
           </Flex>
         </Flex>
       </Container>
@@ -98,7 +165,7 @@ const Header = () => {
       <Container>
         <Flex justify="space-between" align="center" className="py-2">
           <Flex align="center" gap={32}>
-            <CustomDropdown trigger={"О нас"}>
+            <CustomDropdown trigger={t("О нас")}>
               <Flex vertical className="w-full">
                 {MenuData.map((item, index) => (
                   <DropdownItem
@@ -110,31 +177,31 @@ const Header = () => {
                 ))}
               </Flex>
             </CustomDropdown>
-            <NavLink href="/specialties">Направления</NavLink>
-            <NavLink href="/services">Услуги</NavLink>
-            <CustomDropdown trigger={"Врачи"}>
+            <NavLink href="/specialties">{t("Направления")}</NavLink>
+            <NavLink href="/services">{t("Услуги")}</NavLink>
+            <CustomDropdown trigger={t("Врачи")}>
               <Flex vertical className="w-full">
                 <DropdownItem
                   icon={<MedionDoctorIcon />}
-                  menu="Врачи сети клиник Medion"
-                  link=""
+                  menu={t("Врачи сети клиник Medion")}
+                  link="/mediondoctors"
                 />
 
                 <DropdownItem
                   icon={<ForiegnDoctorIcon />}
-                  menu="Зарубежные специалисты"
+                  menu={t("Зарубежные специалисты")}
                   link=""
                 />
               </Flex>
             </CustomDropdown>
-            <NavLink href="/health">О здоровье</NavLink>
-            <NavLink href="/news">Новости</NavLink>
-            <NavLink href="/promotions">Акции</NavLink>
-            <CustomDropdown trigger="Ещё" classname="-left-40">
+            <NavLink href="/health">{t("О здоровье")}</NavLink>
+            <NavLink href="/news">{t("Новости")}</NavLink>
+            <NavLink href="/promotions">{t("Акции")}</NavLink>
+            <CustomDropdown trigger={t("Ещё")} classname="-left-40">
               <Flex className="w-full bg-white h-fit rounded-b-lg">
                 <Flex vertical className="w-full border-r">
                   <h1 className="h-12 text-lg text-gray2 font-medium px-5 py-3">
-                    Обратная связь
+                    {t("Обратная связь")}
                   </h1>
                   {MenuData.map((item, index) => (
                     <DropdownItem
@@ -147,7 +214,7 @@ const Header = () => {
                 </Flex>
                 <Flex vertical className="w-full">
                   <h1 className="h-12 text-lg text-gray2 font-medium px-5 py-3">
-                    Для пациентов
+                    {t("Для пациентов")}
                   </h1>
                   {MenuData.map((item, index) => (
                     <DropdownItem
@@ -163,9 +230,9 @@ const Header = () => {
           </Flex>
           <Flex align="center" gap={12}>
             <NavLink href="/profile">
-              <CustomButton variant="secondary">Личный кабинет</CustomButton>
+              <CustomButton variant="secondary">{t("Личный кабинет")}</CustomButton>
             </NavLink>
-            <CustomButton>Записаться на приём</CustomButton>
+            <CustomButton>{t("Записаться на приём")}</CustomButton>
           </Flex>
         </Flex>
       </Container>
