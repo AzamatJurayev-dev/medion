@@ -1,7 +1,6 @@
 "use client";
-import { Divider, Dropdown, Flex } from "antd";
+import { Divider, Dropdown, Flex, MenuProps } from "antd";
 import Container from "../elements/Container";
-import { PhoneItems } from "../../constants/MenuItems";
 import { CustomButton } from "../ui/Button";
 import logo from "@/public/images/image.png";
 import Image from "next/image";
@@ -30,7 +29,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { RusIcon } from "@/icons/rus-icon";
 import { UzbIcon } from "@/icons/uzb-icon";
 import { EnglishIcon } from "@/icons/english-icon";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 
@@ -40,11 +39,13 @@ const Header = () => {
   const [ ,startTransition] = useTransition();
   const changeLang = (newLang: string) => {
     startTransition(() => {
-      router.replace(`/${newLang}`);
+      router.replace(`/${newLang}${cleanPath}`);
     });
     setOpenLang(false);
   };
   const activePath = useLocale();
+  const pathname = usePathname();
+   const cleanPath = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
   const t = useTranslations();
 
 const MenuData = [
@@ -87,6 +88,39 @@ const MenuData = [
     link: "/careers",
     menu: t("Карьера"),
     icon: <SolutionIcon />,
+  },
+];
+const PhoneItems: MenuProps["items"] = [
+  {
+    label: (
+      <Flex>
+        <Flex vertical>
+          <h1 className="text-[#66686C] font-normal text-[14px]">
+            {t("Для жителей Ташкента")}
+          </h1>
+          <p className="text-[#323232] font-semibold text-[16px]">1223</p>
+        </Flex>
+      </Flex>
+    ),
+    key: "0",
+  },
+  {
+    type: "divider",
+  },
+  {
+    label: (
+      <Flex>
+        <Flex vertical>
+          <h1 className="text-[#66686C] font-normal text-[14px]">
+            {t("Для жителей регионов")}
+          </h1>
+          <p className="text-[#323232] font-semibold text-[16px]">
+            +998 (78) 140-00-10
+          </p>
+        </Flex>
+      </Flex>
+    ),
+    key: "1",
   },
 ];
 
@@ -163,8 +197,8 @@ const MenuData = [
       </Container>
       <Divider className="m-0" />
       <Container>
-        <Flex justify="space-between" align="center" className="py-2">
-          <Flex align="center" gap={32}>
+        <Flex justify="space-between" align="center" className="py-2 gap-4">
+          <Flex align="center" className="2xl:gap-8 md:gap-6">
             <CustomDropdown trigger={t("О нас")}>
               <Flex vertical className="w-full">
                 {MenuData.map((item, index) => (

@@ -3,12 +3,14 @@ import { Swiper } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
-
 interface Props {
   children: React.ReactNode;
   slidesPerView?: number;
   spaceBetween?: number;
   slidesPerGroup?: number;
+  btnClassname?: string;
+  navClassname1?: string;
+  navClassname2?: string;
 }
 
 const CustomCarousel = ({
@@ -24,7 +26,7 @@ const CustomCarousel = ({
         slidesPerView={slidesPerView}
         slidesPerGroup={slidesPerGroup}
         spaceBetween={spaceBetween}
-        loop={true}
+        loop
         speed={800}
         navigation={{
           nextEl: ".swiper-next",

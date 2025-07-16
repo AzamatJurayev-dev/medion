@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const getImageUrl = (image?: any) => {
-  const base = process.env.BASE_URL;
-  if (!base || !image?.url) return "/no-image.jpg";
-  return `${base}${image.url}`;
+export const imageUrlGenerator = (url?: string | null): string => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
+  return url ? `${baseUrl}${url}` : "/images/default.jpg"; // fallback rasm
 };

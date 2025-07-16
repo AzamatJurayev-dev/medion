@@ -1,11 +1,20 @@
+"use client"
 import Container from "@/components/elements/Container";
 import { Flex } from "antd";
 import Image from "next/image";
 import image2 from "@/icons/image2.png";
 import gallery from "@/icons/gallery.png";
 import NewsCard from "../news/components/NewsCard";
+import { useQuery } from "@tanstack/react-query";
+import { getNews } from "@/api/api";
 
 const HealthPage = () => {
+
+  const { data } = useQuery({
+    queryKey: ["news"],
+    queryFn:getNews
+  })
+
   return (
     <div className="py-8 bg-bg1">
       <Container>
@@ -42,11 +51,10 @@ const HealthPage = () => {
             </Flex>
           </Flex>
           <Flex vertical gap={24}>
-            {Array.from({ length: 2 }).map((_, index) => (
+            {data?.slice(0,2).map((item) => (
               <NewsCard
-                key={index}
-                title="5 звёзд от ассоциации медицинского туризма"
-                subtitle="Дорогие пациенты, Микрохирургия глаза имени Святослава Федорова..."
+                key={item.id}
+                data={item}
               />
             ))}
           </Flex>

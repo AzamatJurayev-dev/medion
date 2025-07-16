@@ -1,55 +1,49 @@
-"use client";
 import { CustomButton } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";
-import { Newstype } from "@/types/PromotionType";
+import { PromotionType } from "@/types/PromotionType";
 import { imageUrlGenerator } from "@/utils/ImageUrlGenerate";
 import { Flex } from "antd";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
 interface Props {
-  data?: Newstype;
+  item: PromotionType;
 }
-
-const NewsCard = ({ data }: Props) => {
+const PromotionCard = ({ item }: Props) => {
   const t = useTranslations();
-  const image = data?.newsImages?.[0];
-  const lang = useLocale();
   const router = useRouter();
+  const lang = useLocale();
   const handleClick = () => {
-    router.push(`/news/${data?.id}`);
+    router.push(`/promotions/${item.id}`);
   };
   return (
     <Flex vertical className="rounded-lg relative">
-      <Flex className="w-full h-[300px] relative rounded-t-lg overflow-hidden">
+      <Flex className="w-full h-[300px] rounded-t-lg overflow-hidden">
         <Image
-          src={imageUrlGenerator(image?.url)}
-          alt={""}
-          height={300}
-          width={400}
+          src={imageUrlGenerator(item.promoImage.url)}
+          alt=""
+          height={1000}
+          width={1000}
           className="w-full h-full object-cover"
         />
       </Flex>
-
       <Flex vertical gap={12} className="bg-white p-4 rounded-b-lg">
         <Flex vertical gap={8}>
           <Text variant="title4">
             {lang === "uz"
-              ? data?.titleUz
+              ? item.titleUz
               : lang === "ru"
-              ? data?.titleRu
-              : data?.titleEn}
+              ? item.titleRu
+              : item.titleEn}
           </Text>
           <Text variant="description">
             {lang === "uz"
-              ? data?.subdescUz
+              ? item.promoRangeUz
               : lang === "ru"
-              ? data?.subdescRu
-              : data?.subdescEn}
+              ? item.promoRangeRu
+              : item.promoRangeEn}
           </Text>
         </Flex>
-
         <CustomButton onClick={handleClick} variant="secondary">
           {t("Читать подробно")}
         </CustomButton>
@@ -58,4 +52,4 @@ const NewsCard = ({ data }: Props) => {
   );
 };
 
-export default NewsCard;
+export default PromotionCard;

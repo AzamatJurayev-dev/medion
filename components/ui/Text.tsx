@@ -28,7 +28,7 @@ export const Text: React.FC<CustomTextProps> = ({
     title1: "font-semibold text-[28px] leading-[38px] text-text1",
     title2: "font-semibold text-[24px] leading-8 text-text1",
     title3: "font-semibold text-[20px] leading-6 text-text1",
-    title4: "font-semibold text-[18px] leading-5 text-text1",
+    title4: "font-semibold text-[16px] leading-5 text-[#00040A]",
     subtitle: "font-normal leading-[24px] text-[#323232]",
     subtitle2: "font-normal text-[14px] leading-[22px] text-[#323232]",
     description: " text-[#66686C] font-normal text-[16px] leading-7 ",
@@ -36,7 +36,7 @@ export const Text: React.FC<CustomTextProps> = ({
   };
 
   return (
-    <p {...props} className={clsx(baseStyles,variantStyles[variant], className ,)}>
+    <p {...props} className={clsx(className,baseStyles, variantStyles[variant])}>
       {children}
     </p>
   );

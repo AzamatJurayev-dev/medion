@@ -6,13 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Flex } from "antd";
 import Image from "next/image";
 import { Text } from "@/components/ui/Text";
-import { BannerType } from "@/types/BannerType";
 import { getBanners } from "@/api/api";
 import { useLocale } from "next-intl";
 
 
 const MainSlider = () => {
-  const { data: banners } = useQuery<{ data: BannerType[] }>({
+  const { data: banners } = useQuery({
     queryKey: ["banners"],
     queryFn: getBanners,
   });
@@ -40,7 +39,7 @@ const MainSlider = () => {
         clickable: true,
       }}
     >
-      {banners?.data.map((item) => (
+      {banners?.map((item) => (
         <SwiperSlide key={item.id}>
           <Flex className="rounded-xl">
             <Image

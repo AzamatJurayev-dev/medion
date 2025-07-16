@@ -7,14 +7,16 @@ import SwitchButton from "@/components/elements/SwitchButton";
 import CustomCarousel from "@/components/elements/Slider";
 import Container from "@/components/elements/Container";
 import { Text } from "@/components/ui/Text";
+import { useTranslations } from "next-intl";
 
 const Disturb = () => {
+  const t = useTranslations();
   return (
     <Container>
       <Flex vertical className="gap-8 mb-16 ">
         <Flex gap={24} align="center">
           <Typography className="font-semibold text-4xl">
-            Что вас беспокоит
+            {t("Что вас беспокоит")}
           </Typography>
           <SwitchButton />
         </Flex>
