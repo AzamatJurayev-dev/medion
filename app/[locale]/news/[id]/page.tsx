@@ -21,6 +21,7 @@ const NewsDetailPage = () => {
     queryFn: () => getNewsById(id),
     enabled: !!id,
   });
+
   const lang = useLocale();
   if (isLoading) return <Spin />;
   if (!data) return <div>Yangilik topilmadi</div>;

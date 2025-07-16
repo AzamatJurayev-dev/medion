@@ -1,5 +1,5 @@
 import { AwardsType, BannerType, PartnersType } from "@/types/BannerType";
-import { Newstype, PromotionType } from "@/types/PromotionType";
+import { DepartmentType, Newstype, PromotionType } from "@/types/PromotionType";
 import request from "@/utils/httpRequest";
 
 export const getBanners = async (): Promise<BannerType[]> => {
@@ -94,7 +94,7 @@ export const getAwards = async (): Promise<AwardsType[]> => {
 
 ////// Department ////// 
 
-export const getDepartments = async (): Promise<PartnersType[]> => {
+export const getDepartments = async (): Promise<DepartmentType[]> => {
   const response = await request.get("/departments", {
     params: {
       populate: "departmentIcon",
@@ -105,7 +105,7 @@ export const getDepartments = async (): Promise<PartnersType[]> => {
 
 export const getDepartmentByid = async (
   id: string
-): Promise<PartnersType | null> => {
+): Promise<DepartmentType > => {
   const response = await request.get(`/departments`, {
     params: {
       "filters[id][$eq]": id,

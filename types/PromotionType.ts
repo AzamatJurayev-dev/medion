@@ -65,13 +65,26 @@ export interface DepartmentType {
   firstAppointmentDollar: number;
   retryAppointmentSum: number;
   retryAppointmentDollar: number;
-  departmentImages: {
+  departmentImages: DepartmentImagesType[];
+  departmentIcon: {
     id: number;
     url: string;
-    format?: {
-      thumbnail?: {
-        url: string;
-      }
-    }
-  }
+  };
+}
+
+export interface DepartmentImagesType {
+  id: number;
+  url: string;
+  name: string;
+  format?: {
+    thumbnail?: {
+      url: string;
+    };
+  };
+}
+
+export interface ImageTypes {
+  id: number;
+  url: string;
+  name: string;
 }

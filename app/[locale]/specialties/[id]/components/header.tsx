@@ -1,13 +1,15 @@
 import Container from "@/components/elements/Container";
 import { CustomButton } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";
-import { BEL } from "@/icons";
 import { Flex, Tabs, TabsProps } from "antd";
 import Image from "next/image";
 import brain from "@/icons/brain.png";
 import group from "@/icons/group.png";
 import React from "react";
-const Header = () => {
+import { DepartmentType } from "@/types/PromotionType";
+import { imageUrlGenerator } from "@/utils/ImageUrlGenerate";
+import { useLocale, useTranslations } from "next-intl";
+const Header = ({ data }: { data?: DepartmentType }) => {
   const items: TabsProps["items"] = [
     {
       key: "1",
@@ -26,6 +28,8 @@ const Header = () => {
       label: "Фото",
     },
   ];
+  const lang = useLocale();
+  const t = useTranslations();
   return (
     <Flex vertical className=" overflow-visible">
       <div className="relative w-full h-60 flex justify-between ">
@@ -47,10 +51,31 @@ const Header = () => {
           <Container>
             <Flex vertical gap={24}>
               <Flex gap={16}>
-                <BEL />
-                <Text>Неврология</Text>
+                <Flex className="size-12 rounded-full">
+                  <Image
+                    src={imageUrlGenerator(data?.departmentIcon.url)}
+                    alt=""
+                    width={1000}
+                    height={1000}
+                    className="w-full h-full object-cover"
+                  />
+                </Flex>
+                <Text>
+                  {lang === "uz"
+                    ? data?.titleUz
+                    : lang === "ru"
+                    ? data?.titleRu
+                    : data?.titleEn}
+                </Text>
               </Flex>
-              <CustomButton>Записаться к неврологу</CustomButton>
+              <CustomButton>
+                {t("Записаться к")} : {""}
+                {lang === "uz"
+                  ? data?.titleUz
+                  : lang === "ru"
+                  ? data?.titleRu
+                  : data?.titleEn}
+              </CustomButton>
             </Flex>
           </Container>
         </div>

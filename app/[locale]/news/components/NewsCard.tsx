@@ -6,7 +6,7 @@ import { imageUrlGenerator } from "@/utils/ImageUrlGenerate";
 import { Flex } from "antd";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Props {
   data?: Newstype;
@@ -16,10 +16,6 @@ const NewsCard = ({ data }: Props) => {
   const t = useTranslations();
   const image = data?.newsImages?.[0];
   const lang = useLocale();
-  const router = useRouter();
-  const handleClick = () => {
-    router.push(`/news/${data?.id}`);
-  };
   return (
     <Flex vertical className="rounded-lg relative">
       <Flex className="w-full h-[300px] relative rounded-t-lg overflow-hidden">
@@ -49,10 +45,11 @@ const NewsCard = ({ data }: Props) => {
               : data?.subdescEn}
           </Text>
         </Flex>
-
-        <CustomButton onClick={handleClick} variant="secondary">
-          {t("Читать подробно")}
-        </CustomButton>
+        <Link href={`/news/${data?.id}`}>
+          <CustomButton variant="secondary">
+            {t("Читать подробно")}
+          </CustomButton>
+        </Link>
       </Flex>
     </Flex>
   );

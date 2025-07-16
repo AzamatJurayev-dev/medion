@@ -5,17 +5,13 @@ import { imageUrlGenerator } from "@/utils/ImageUrlGenerate";
 import { Flex } from "antd";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 interface Props {
   item: PromotionType;
 }
 const PromotionCard = ({ item }: Props) => {
   const t = useTranslations();
-  const router = useRouter();
   const lang = useLocale();
-  const handleClick = () => {
-    router.push(`/promotions/${item.id}`);
-  };
   return (
     <Flex vertical className="rounded-lg relative">
       <Flex className="w-full h-[300px] rounded-t-lg overflow-hidden">
@@ -44,9 +40,11 @@ const PromotionCard = ({ item }: Props) => {
               : item.promoRangeEn}
           </Text>
         </Flex>
-        <CustomButton onClick={handleClick} variant="secondary">
-          {t("Читать подробно")}
-        </CustomButton>
+        <Link href={`/promotions/${item.id}`}>
+          <CustomButton variant="secondary">
+            {t("Читать подробно")}
+          </CustomButton>
+        </Link>
       </Flex>
     </Flex>
   );

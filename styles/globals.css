@@ -87,3 +87,6 @@ a:hover {
 .ant-modal-mask{
   background-color: rgba(0, 0, 0, 0.75) !important;
 }
+.custom-modal .ant-modal-content {
+  background: none !important; /* siz xohlagan rang */
+}

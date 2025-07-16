@@ -9,7 +9,6 @@ import { Text } from "@/components/ui/Text";
 import { getBanners } from "@/api/api";
 import { useLocale } from "next-intl";
 
-
 const MainSlider = () => {
   const { data: banners } = useQuery({
     queryKey: ["banners"],
@@ -29,7 +28,6 @@ const MainSlider = () => {
         disableOnInteraction: false,
       }}
       speed={800}
-      loop={true}
       navigation={{
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",

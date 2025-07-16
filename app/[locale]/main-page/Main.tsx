@@ -8,8 +8,8 @@ import { Text } from "@/components/ui/Text";
 import { useLocale, useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import { getPromotions } from "@/api/api";
-import { useRouter } from "next/navigation";
 import { imageUrlGenerator } from "@/utils/ImageUrlGenerate";
+import Link from "next/link";
 
 const Main = () => {
   const page = 1;
@@ -21,10 +21,7 @@ const Main = () => {
 
   const t = useTranslations();
   const lang = useLocale();
-  const router = useRouter();
-  const handleClick = (id: number) => {
-    router.push(`/promotions/${id}`);
-  };
+
   return (
     <Container>
       <Flex className="grid grid-cols-2 gap-6  ">
@@ -53,12 +50,11 @@ const Main = () => {
                     ? item?.titleUz
                     : item?.titleEn}
                 </Text>
-                <CustomButton
-                  onClick={() => handleClick(item.id)}
-                  variant="default"
-                >
-                  {t("Подробнее")}
-                </CustomButton>
+                <Link href={`/promotions/${item.id}`}>
+                  <CustomButton variant="default">
+                    {t("Подробнее")}
+                  </CustomButton>
+                </Link>
               </Flex>
             </Flex>
           ))}
